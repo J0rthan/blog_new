@@ -14,11 +14,23 @@ public class AuthDtos {
             @NotBlank @Size(min = 6, max = 15) String password
     ) {}
 
-    // 注册/登陆成功返回体
-    public record AuthResponse(
+    // 注册成功返回体
+    public record RegisterResponse(
             Long userId,
             String userName,
             LocalDateTime createdAt
+    ) {}
+
+    // 登陆请求
+    public record LoginRequest(
+            @NotBlank @Email @Size(max = 64) String email,
+            @NotBlank @Size(min = 6, max = 15) String password
+    ) {}
+
+    // 登陆成功返回体
+    public record LoginResponse(
+            String userName,
+            String token
     ) {}
 
     // 登陆请求

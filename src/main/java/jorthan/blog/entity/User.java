@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "user_name", nullable = false, length = 100, unique = true)
     private String userName;
@@ -28,24 +28,31 @@ public class User {
     }
 
     // setters and getters
-    void setUserName(String userName) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setUserName(String userName) {
         this.userName = userName;
     }
-    String getUserName() {
+    public String getUserName() {
         return this.userName;
     }
 
-    void setPasswordHash(String passwordHash) {
+    public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
-    String getPasswordHash() {
+    public String getPasswordHash() {
         return this.passwordHash;
     }
 
-    void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    LocalDateTime getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }
 }

@@ -29,6 +29,7 @@ public class AuthService {
         author.setEmail(req.email());
         String passwordHash = encoder.encode(req.password());
         author.setPasswordHash(passwordHash);
+        author.setExist(Boolean.TRUE);
         author = authRepository.save(author);
 
         return toRegisterDto(author);
@@ -49,6 +50,7 @@ public class AuthService {
                 user.getId(),
                 user.getUserName(),
                 user.getCreatedAt()
+
         );
     }
 

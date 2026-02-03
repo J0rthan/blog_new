@@ -13,22 +13,21 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 前后端分离 API 通常关 CSRF（否则 POST/PUT/DELETE 可能被拦）
+                // 不使用 Security 做登录鉴权，全关掉相关能力
                 .csrf(AbstractHttpConfigurer::disable)
-
-                // 关掉默认登录页 / Basic 弹窗（否则你请求时会被 401 + WWW-Authenticate 干扰）
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
 
-                // 先把 auth 接口放行，其他接口你可以改成 authenticated()
+                // 关键：放行所有请求（Security 不拦截）
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().permitAll()
                 );
 
         return http.build();
     }
 
+    // 只使用Security的encoder作密码的编码器
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

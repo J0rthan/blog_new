@@ -2,7 +2,7 @@
 
 Spring MVC request flow:
 
-![How Java Spring MVC Works](/Users/lkw/Desktop/Blog/项目指南/图片资源\(不用管\)/Spring-MVC-Flow-Diagram.png)
+![How Java Spring MVC Works](<图片资源(不用管)/Spring-MVC-Flow-Diagram.png>)
 
 1. Client requests for a page by specifying the web URL for the page.
 2. Client request is intercepted by the **Dispatcher Servlet** also known as **Front Controller**. Dispatcher Servlet is a servlet specified in **web.xml** file.

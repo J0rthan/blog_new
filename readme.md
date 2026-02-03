@@ -23,3 +23,14 @@ curl -X POST http://localhost:8080/api/auth/login \
 -d '{"email": "your email", "password": "your password"}'        
 ```
 
+## 稿件模块
+
+### 提交一篇文章
+
+```bash
+curl -X POST http://localhost:8080/api/post/submit \      
+-H "Content-Type: application/json" \
+-H "Auth_Token: your-token" \
+-d '{"title": "***", "content": "***", "summary": "***"}' # 自行填充
+```
+

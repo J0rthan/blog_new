@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TokenStore {
     private final Map<String, Long> tokenToUserId = new ConcurrentHashMap<>();
 
+    // 通过userId获取token
     public String getToken(Long userId) {
         String token = UUID.randomUUID().toString();
         tokenToUserId.put(token, userId);
@@ -17,6 +18,7 @@ public class TokenStore {
         return token;
     }
 
+    // 通过token获取userId
     public Long getUserId(String token) {
         return tokenToUserId.get(token);
     }

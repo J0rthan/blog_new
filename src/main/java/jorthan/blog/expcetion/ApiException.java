@@ -12,10 +12,10 @@ public class ApiException extends RuntimeException {
         this.code = code;
     }
 
-//    public HttpStatus getHttpStatus() {
-//        return this.httpStatus;
-//    }
-//    public String getCode() {
-//        return this.code;
-//    }
+    public HttpStatus getHttpStatus() {
+        return this.httpStatus;
+    }
+    public String getCode() {
+        return this.code;
+    }
 }

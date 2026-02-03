@@ -2,6 +2,8 @@ package jorthan.blog.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jorthan.blog.expcetion.ApiException;
+import jorthan.blog.expcetion.ApiExceptions;
 import jorthan.blog.token.TokenStore;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -28,13 +30,15 @@ public class AuthInterceptor implements HandlerInterceptor {
         // 通过header获取token
         String token = req.getHeader("Auth_Token");
         if (token == null || token.isBlank()) {
-            throw new Exception();
+            // 给message
+            throw new ApiExceptions.Unauthorized("Cannot get valid token");
         }
 
         // 通过token查userId
         Long userId = tokenStore.getUserId(token);
         if (userId == null) {
-            throw new Exception();
+            // 给message
+            throw new ApiExceptions.NotFound("Cannot get the valid user");
         }
 
         // 将userId存入req中，便于后续业务使用

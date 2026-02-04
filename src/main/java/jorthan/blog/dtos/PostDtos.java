@@ -13,12 +13,18 @@ public class PostDtos {
             @NotBlank @Size(min = 1, max = 200) String summary
     ) {}
 
+//    // 删除一篇文章的请求体
+//    public record PostDeleteRequest(
+//            @NotBlank Long postId
+//    ) {}
+
     // 浏览所有文章响应体(只返回标题等粗略信息)
     public record PostSummaryResponse(
         Long id,
         String authorName,
         String title,
         String summary,
+        boolean exist,
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
     ) {}
@@ -29,7 +35,17 @@ public class PostDtos {
             String authorName,
             String title,
             String content,
+            boolean exist,
             LocalDateTime createdAt,
             LocalDateTime modifiedAt
+    ) {}
+
+    // 删除文章响应体
+    public record PostDeleteResponse(
+            Long id,
+            String title,
+            String summary,
+            boolean exist,
+            String message
     ) {}
 }

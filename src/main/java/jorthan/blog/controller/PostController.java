@@ -4,11 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jorthan.blog.auth.AuthInterceptor;
 import jorthan.blog.dtos.PostDtos;
-import jorthan.blog.entity.Post;
-import jorthan.blog.expcetion.ApiException;
-import jorthan.blog.expcetion.ApiExceptions;
 import jorthan.blog.service.PostService;
-import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -43,5 +39,15 @@ public class PostController {
     @PostMapping("/update/{postId}") // 修改一篇文章
     public ResponseEntity<PostDtos.PostDetailResponse> update(@Valid @RequestBody PostDtos.PostRequest body, HttpServletRequest req, @PathVariable Long postId) {
         return ResponseEntity.ok(postService.update(body, req, postId));
+    }
+
+    @PostMapping("/delete/{postId}") // 删除一篇文章
+    public ResponseEntity<PostDtos.PostDeleteResponse> delete(HttpServletRequest req, @PathVariable Long postId) {
+        return ResponseEntity.ok(postService.delete(req, postId));
+    }
+
+    @PostMapping("/restore/{postId}") // 恢复一篇文章
+    public ResponseEntity<PostDtos.PostDetailResponse> restore(HttpServletRequest req, @PathVariable Long postId) {
+        return ResponseEntity.ok(postService.restore(req, postId));
     }
 }

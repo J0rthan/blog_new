@@ -24,7 +24,7 @@ public class PostService {
     }
 
     public Page<PostDtos.PostSummaryResponse> list(Pageable pageable) {
-        Page<PostDtos.PostSummaryResponse> lists = postRepository.findAll(pageable).map(this::toPostSummaryResponse);
+        Page<PostDtos.PostSummaryResponse> lists = postRepository.findAllByExist(true, pageable).map(this::toPostSummaryResponse);
 
         return lists;
     }
@@ -34,6 +34,7 @@ public class PostService {
         post.setTitle(body.title());
         post.setContent(body.content());
         post.setSummary(body.summary());
+        post.setExist(true);
         post.setAuthor(authRepository.findById(userId).get());
         post = postRepository.save(post);
 
@@ -59,6 +60,40 @@ public class PostService {
         return toPostDetailResponse(post);
     }
 
+    public PostDtos.PostDeleteResponse delete(HttpServletRequest req, Long postId) {
+        // 先判断是否为作者，不是作者不能修改
+        Long userId = (Long)req.getAttribute(AuthInterceptor.ATTR_USER_ID);
+        // 查不到post说明post不存在
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
+        Long authorId = post.getAuthor().getId();
+        if (!userId.equals(authorId)) {
+            throw new ApiExceptions.Forbidden("Only author can modify this post");
+        }
+
+        // 进行删除操作
+        post.setExist(false);
+        post = postRepository.save(post);
+
+        return toPostDeleteResponse(post);
+    }
+
+    public PostDtos.PostDetailResponse restore(HttpServletRequest req, Long postId) {
+        // 先判断是否为作者，不是作者不能修改
+        Long userId = (Long)req.getAttribute(AuthInterceptor.ATTR_USER_ID);
+        // 查不到post说明post不存在
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
+        Long authorId = post.getAuthor().getId();
+        if (!userId.equals(authorId)) {
+            throw new ApiExceptions.Forbidden("Only author can modify this post");
+        }
+
+        // 进行恢复操作
+        post.setExist(true);
+        post = postRepository.save(post);
+
+        return toPostDetailResponse(post);
+    }
+
     // 将Post转换成PostDtos.PostSummaryResponse
     //    Long id,
     //    String authorName,
@@ -72,6 +107,7 @@ public class PostService {
                 post.getAuthor().getUserName(),
                 post.getTitle(),
                 post.getSummary(),
+                post.getExist(),
                 post.getCreatedAt(),
                 post.getModifiedAt()
         );
@@ -90,8 +126,24 @@ public class PostService {
                 post.getAuthor().getUserName(),
                 post.getTitle(),
                 post.getContent(),
+                post.getExist(),
                 post.getCreatedAt(),
                 post.getModifiedAt()
+        );
+    }
+
+    //  将Post转换成PostDtos.PostDeleteResponse
+    //    Long id,
+    //    String title,
+    //    String summary,
+    //    String message
+    public PostDtos.PostDeleteResponse toPostDeleteResponse(Post post) {
+        return new PostDtos.PostDeleteResponse(
+                post.getId(),
+                post.getTitle(),
+                post.getSummary(),
+                post.getExist(),
+                "Successfully delete"
         );
     }
 }

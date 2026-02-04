@@ -32,6 +32,9 @@ public class Post {
     @Column(name = "modified_at", nullable = true)
     private LocalDateTime modifiedAt;
 
+    @Column(name = "exist", nullable = false)
+    private boolean exist;
+
     @PrePersist
     public void prePersist() {
         if (createdAt == null) {
@@ -94,5 +97,10 @@ public class Post {
     }
     public void setModifiedAt(LocalDateTime time) {
         this.modifiedAt = time;
+    }
+
+    public boolean getExist() { return this.exist; }
+    public void setExist(boolean exist) {
+        this.exist = exist;
     }
 }

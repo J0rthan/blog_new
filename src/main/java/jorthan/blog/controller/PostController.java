@@ -23,7 +23,7 @@ public class PostController {
     }
 
     @GetMapping // 查看所有的文章
-    public ResponseEntity<Page<PostDtos.PostSummaryResponse>> list(Pageable pageable) {
+    public ResponseEntity<Page<PostDtos.PostSummaryResponse>> list(@PageableDefault(sort = "createdAt", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(postService.list(pageable));
     }
 

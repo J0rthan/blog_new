@@ -13,7 +13,7 @@ public class Post {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_name", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
     @Column(name = "title", nullable = false)

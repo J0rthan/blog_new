@@ -32,7 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         // 通过header获取token
-        String token = req.getHeader("Auth_Token");
+        String token = req.getHeader("Auth-Token");
         if (token == null || token.isBlank()) {
             // 给message
             throw new ApiExceptions.BadRequest("Invalid input token");

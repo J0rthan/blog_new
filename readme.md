@@ -51,3 +51,16 @@ curl -X POST http://localhost:8080/api/post/update/{postId} \
 -d '{"title": ***, "content": "***", "summary": "***"}'
 ```
 
+### 删除一篇文章
+
+```java
+curl -i -X POST http://localhost:8080/api/post/delete/{postId} \                       
+-H "Auth_Token: {your token}"
+```
+
+### 恢复一篇文章
+
+```java
+curl -i -X POST http://localhost:8080/api/post/restore/{postId} \                     
+-H "Auth_Token: {your token}"
+```

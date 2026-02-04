@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class PostDtos {
-    // 提交一篇文章的请求体
-    public record PostSubmitRequest(
+    // 提交/修改一篇文章的请求体
+    public record PostRequest(
             @NotBlank @Size(min = 1, max = 20) String title,
             @NotBlank @Size(min = 1, max =  200_000) String content,
             @NotBlank @Size(min = 1, max = 200) String summary

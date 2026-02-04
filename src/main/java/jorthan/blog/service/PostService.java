@@ -1,7 +1,10 @@
 package jorthan.blog.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jorthan.blog.auth.AuthInterceptor;
 import jorthan.blog.dtos.PostDtos;
 import jorthan.blog.entity.Post;
+import jorthan.blog.expcetion.ApiExceptions;
 import jorthan.blog.repository.AuthRepository;
 import jorthan.blog.repository.PostRepository;
 import org.springframework.data.domain.Page;
@@ -26,12 +29,31 @@ public class PostService {
         return lists;
     }
 
-    public PostDtos.PostDetailResponse submit(Pageable pageable, Long userId, PostDtos.PostSubmitRequest body) {
+    public PostDtos.PostDetailResponse submit(Long userId, PostDtos.PostRequest body) {
         Post post = new Post();
         post.setTitle(body.title());
         post.setContent(body.content());
         post.setSummary(body.summary());
         post.setAuthor(authRepository.findById(userId).get());
+        post = postRepository.save(post);
+
+        return toPostDetailResponse(post);
+    }
+
+    public PostDtos.PostDetailResponse update(PostDtos.PostRequest body, HttpServletRequest req, Long postId) {
+        // 先判断是否为作者，不是作者不能修改
+        Long userId = (Long)req.getAttribute(AuthInterceptor.ATTR_USER_ID);
+        // 查不到post说明post不存在
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
+        Long authorId = post.getAuthor().getId();
+        if (!userId.equals(authorId)) {
+            throw new ApiExceptions.Forbidden("Only author can modify this post");
+        }
+
+        // 进行修改操作
+        post.setTitle(body.title());
+        post.setContent(body.content());
+        post.setSummary(body.summary());
         post = postRepository.save(post);
 
         return toPostDetailResponse(post);

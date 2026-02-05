@@ -30,8 +30,8 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-    public Page<CommentDtos.CommentListResponse> list(Pageable pageable) {
-        return commentRepository.findAllByExist(true, pageable).map(this::toCommentListResponse);
+    public Page<CommentDtos.CommentListResponse> list(Pageable pageable, Long postId) {
+        return commentRepository.findByPostIdAndExist(postId, true, pageable).map(this::toCommentListResponse);
     }
 
     public CommentDtos.CommentListResponse submit(CommentDtos.CommentRequest body, HttpServletRequest req, Long postId) {

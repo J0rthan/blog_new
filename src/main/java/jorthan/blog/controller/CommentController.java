@@ -18,9 +18,9 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/list")// 查看评论
-    public ResponseEntity<Page<CommentDtos.CommentListResponse>> list(Pageable pageable) {
-        return ResponseEntity.ok(commentService.list(pageable));
+    @GetMapping("/list/{postId}")// 查看评论
+    public ResponseEntity<Page<CommentDtos.CommentListResponse>> list(Pageable pageable, @PathVariable Long postId) {
+        return ResponseEntity.ok(commentService.list(pageable, postId));
     }
 
     @PostMapping("/submit/{postId}") // 发表评论

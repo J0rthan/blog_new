@@ -45,7 +45,7 @@ public class PostService {
         // 先判断是否为作者，不是作者不能修改
         Long userId = (Long)req.getAttribute(AuthInterceptor.ATTR_USER_ID);
         // 查不到post说明post不存在
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
+        Post post = postRepository.findByIdAndExist(postId, true).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
         Long authorId = post.getAuthor().getId();
         if (!userId.equals(authorId)) {
             throw new ApiExceptions.Forbidden("Only author can modify this post");
@@ -64,7 +64,7 @@ public class PostService {
         // 先判断是否为作者，不是作者不能修改
         Long userId = (Long)req.getAttribute(AuthInterceptor.ATTR_USER_ID);
         // 查不到post说明post不存在
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
+        Post post = postRepository.findByIdAndExist(postId, true).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
         Long authorId = post.getAuthor().getId();
         if (!userId.equals(authorId)) {
             throw new ApiExceptions.Forbidden("Only author can modify this post");
@@ -81,7 +81,7 @@ public class PostService {
         // 先判断是否为作者，不是作者不能修改
         Long userId = (Long)req.getAttribute(AuthInterceptor.ATTR_USER_ID);
         // 查不到post说明post不存在
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
+        Post post = postRepository.findByIdAndExist(postId, true).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
         Long authorId = post.getAuthor().getId();
         if (!userId.equals(authorId)) {
             throw new ApiExceptions.Forbidden("Only author can modify this post");

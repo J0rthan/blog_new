@@ -27,4 +27,9 @@ public class CommentController {
     public ResponseEntity<CommentDtos.CommentListResponse> submit(@Valid @RequestBody CommentDtos.CommentRequest body, HttpServletRequest req, @PathVariable Long postId) {
         return ResponseEntity.status(201).body(commentService.submit(body, req, postId));
     }
+
+    @PostMapping("/delete/{postId}/{commentId}") // 删除评论
+    public ResponseEntity<CommentDtos.CommentDeleteResponse> delete(HttpServletRequest req, @PathVariable Long postId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(commentService.delete(req, postId, commentId));
+    }
 }

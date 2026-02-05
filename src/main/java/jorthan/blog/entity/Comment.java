@@ -28,9 +28,17 @@ public class Comment {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "delted_at", nullable = true)
+    private LocalDateTime deletedAt;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.deletedAt = LocalDateTime.now();
     }
 
     // getters and setters
@@ -51,4 +59,7 @@ public class Comment {
 
     public LocalDateTime getCreatedAt() {return this.createdAt;}
     public void setCreatedAt(LocalDateTime time) {this.createdAt = time;}
+
+    public LocalDateTime getDeletedAt() {return this.deletedAt;}
+    public void setDeletedAt(LocalDateTime time) {this.deletedAt = time;}
 }

@@ -19,4 +19,13 @@ public class CommentDtos {
             String content,
             LocalDateTime createdAt
     ) {}
+
+    // 评论删除响应体
+    public record CommentDeleteResponse(
+            Long commentId,
+            Long postId,
+            String userName,
+            String content,
+            LocalDateTime deletedAt
+    ) {}
 }

@@ -56,17 +56,23 @@ curl -X POST http://localhost:8080/api/post/update/{postId} \
 -d '{"title": ***, "content": "***", "summary": "***"}'
 ```
 
+### 阅读某一篇文章
+
+```bash
+curl -X GET http://localhost:8080/api/post/read/{postId}
+```
+
 ### 删除一篇文章
 
 ```bash
-curl -i -X POST http://localhost:8080/api/post/delete/{postId} \                       
+curl (-i) -X POST http://localhost:8080/api/post/delete/{postId} \                       
 -H "Auth-Token: {your token}"
 ```
 
 ### 恢复一篇文章
 
 ```bash
-curl -i -X POST http://localhost:8080/api/post/restore/{postId} \                     
+curl (-i) -X POST http://localhost:8080/api/post/restore/{postId} \                     
 -H "Auth-Token: {your token}"
 ```
 
@@ -75,13 +81,13 @@ curl -i -X POST http://localhost:8080/api/post/restore/{postId} \
 ### 查找一篇文章的所有评论
 
 ```bash
-curl -i -X GET http://localhost:8080/api/comment/list/{postId}
+curl (-i) -X GET http://localhost:8080/api/comment/list/{postId}
 ```
 
 ### 对一篇文章进行评论
 
 ```bash
-curl -i -X POST http://localhost:8080/api/comment/submit/{postId} \
+curl (-i) -X POST http://localhost:8080/api/comment/submit/{postId} \
 -H "Content-Type: application/json" \
 -H "Auth-Token: {your token}" \
 -d '{"content": "***"}'
@@ -90,7 +96,7 @@ curl -i -X POST http://localhost:8080/api/comment/submit/{postId} \
 ### 删除一篇文章的某一评论
 
 ```bash
-curl -i -X POST http://localhost:8080/api/comment/delete/{postId}/{commentId} \
+curl (-i) -X POST http://localhost:8080/api/comment/delete/{postId}/{commentId} \
 -H "Auth-Token: {your token}" \
 ```
 

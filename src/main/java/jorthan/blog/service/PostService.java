@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jorthan.blog.auth.AuthInterceptor;
 import jorthan.blog.dtos.PostDtos;
 import jorthan.blog.entity.Post;
+import jorthan.blog.expcetion.ApiException;
 import jorthan.blog.expcetion.ApiExceptions;
 import jorthan.blog.repository.AuthRepository;
 import jorthan.blog.repository.PostRepository;
@@ -37,6 +38,12 @@ public class PostService {
         post.setExist(true);
         post.setAuthor(authRepository.findById(userId).get());
         post = postRepository.save(post);
+
+        return toPostDetailResponse(post);
+    }
+
+    public PostDtos.PostDetailResponse read(Long postId) {
+        Post post = postRepository.findByIdAndExist(postId, true).orElseThrow(() -> new ApiExceptions.NotFound("post not found"));
 
         return toPostDetailResponse(post);
     }

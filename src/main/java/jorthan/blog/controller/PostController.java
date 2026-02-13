@@ -36,6 +36,11 @@ public class PostController {
         return ResponseEntity.status(201).body(postService.submit(userId, body));
     }
 
+    @GetMapping("/read/{postId}") // 查看某一篇文章
+    public ResponseEntity<PostDtos.PostDetailResponse> read(@PathVariable Long postId) {
+        return ResponseEntity.ok(postService.read(postId));
+    }
+
     @PostMapping("/update/{postId}") // 修改一篇文章
     public ResponseEntity<PostDtos.PostDetailResponse> update(@Valid @RequestBody PostDtos.PostRequest body, HttpServletRequest req, @PathVariable Long postId) {
         return ResponseEntity.ok(postService.update(body, req, postId));

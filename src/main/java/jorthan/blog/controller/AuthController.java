@@ -25,4 +25,9 @@ public class AuthController {
     public ResponseEntity<AuthDtos.LoginResponse> login(@RequestBody @Valid AuthDtos.LoginRequest req) {
         return ResponseEntity.ok(authService.login(req));
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<AuthDtos.DeleteResponse> delete(@RequestBody @Valid AuthDtos.DeleteRequest req) {
+        return ResponseEntity.ok(authService.delete(req));
+    }
 }

@@ -35,6 +35,9 @@ public class Post {
     @Column(name = "exist", nullable = false)
     private boolean exist;
 
+    @Column(name = "category", nullable = false)
+    private String category;
+
     @PrePersist
     public void prePersist() {
         if (createdAt == null) {
@@ -103,4 +106,7 @@ public class Post {
     public void setExist(boolean exist) {
         this.exist = exist;
     }
+
+    public String getCategory() { return this.category; }
+    public void setCategory(String category) { this.category = category; }
 }

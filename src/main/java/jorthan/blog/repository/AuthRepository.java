@@ -19,4 +19,7 @@ public interface AuthRepository extends JpaRepository<User, Long> {
     // 根据userId和exist查找特定的用户
     @Query("select u from User u where u.id = :id and u.exist = :exist")
     Optional<User> findByIdAndExist(@Param("id") Long id, @Param("exist") Boolean exist);
+
+    boolean existsByIdentity(String identity);
+    boolean existsByUserName(String userName);
 }

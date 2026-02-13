@@ -19,7 +19,8 @@ public class AuthDtos {
     public record RegisterResponse(
             Long userId,
             String userName,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            String identity
     ) {}
 
     // 登陆请求
@@ -31,7 +32,21 @@ public class AuthDtos {
     // 登陆成功返回体
     public record LoginResponse(
             String userName,
-            String token
+            String token,
+            String identity
+    ) {}
+
+    // 删除请求
+    public record  DeleteRequest(
+            @NotBlank @Email @Size(max = 64) String email
+    ) {}
+
+    // 删除成功返回体
+    public record DeleteResponse(
+            String userName,
+            String identity,
+            boolean exist,
+            LocalDateTime deletedAt
     ) {}
 
     // 错误(exception)返回体

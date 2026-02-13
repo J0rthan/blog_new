@@ -17,6 +17,9 @@ public class User {
     @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
+    @Column(name = "identity", nullable = false)
+    private String identity;
+
     @Column(name = "exist", nullable = false)
     private Boolean exist;
 
@@ -34,11 +37,6 @@ public class User {
         if (this.createdAt == null) {
             this.createdAt = LocalDateTime.now();
         }
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.deletedAt = LocalDateTime.now();
     }
 
     // setters and getters
@@ -90,4 +88,7 @@ public class User {
     public LocalDateTime getDeletedAt() {
         return this.deletedAt;
     }
+
+    public void setIdentity(String identity) { this.identity = identity; }
+    public String getIdentity() { return this.identity; }
 }

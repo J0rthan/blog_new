@@ -36,6 +36,7 @@ public class PostService {
         post.setContent(body.content());
         post.setSummary(body.summary());
         post.setExist(true);
+        post.setCategory(body.category());
         post.setAuthor(authRepository.findById(userId).get());
         post = postRepository.save(post);
 
@@ -62,6 +63,7 @@ public class PostService {
         post.setTitle(body.title());
         post.setContent(body.content());
         post.setSummary(body.summary());
+        post.setCategory(body.category());
         post = postRepository.save(post);
 
         return toPostDetailResponse(post);

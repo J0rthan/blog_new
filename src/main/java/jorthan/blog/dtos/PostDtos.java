@@ -10,7 +10,8 @@ public class PostDtos {
     public record PostRequest(
             @NotBlank @Size(min = 1, max = 20) String title,
             @NotBlank @Size(min = 1, max =  200_000) String content,
-            @NotBlank @Size(min = 1, max = 200) String summary
+            @NotBlank @Size(min = 1, max = 200) String summary,
+            @NotBlank @Size(min = 1, max = 100) String category
     ) {}
 
 //    // 删除一篇文章的请求体

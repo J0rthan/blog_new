@@ -30,6 +30,7 @@ public class AuthService {
         String passwordHash = encoder.encode(req.password());
         author.setPasswordHash(passwordHash);
         author.setExist(Boolean.TRUE);
+        author.setIdentity("reader");
         author = authRepository.save(author);
 
         return toRegisterDto(author);
@@ -42,6 +43,15 @@ public class AuthService {
         return toLogInDto(u, token);
     }
 
+    public AuthDtos.DeleteResponse delete(AuthDtos.DeleteRequest req) {
+        User u = authRepository.findByEmail(req.email()).orElseThrow(() -> new ApiExceptions.NotFound("Cannot get the valid user"));
+        u.setExist(false);
+        u.setDeletedAt(LocalDateTime.now());
+        u = authRepository.save(u);
+
+        return toDeleteDto(u);
+    }
+
     //Long userId,
     //String userName,
     //LocalDateTime createdAt
@@ -49,8 +59,8 @@ public class AuthService {
         return new AuthDtos.RegisterResponse(
                 user.getId(),
                 user.getUserName(),
-                user.getCreatedAt()
-
+                user.getCreatedAt(),
+                user.getIdentity()
         );
     }
 
@@ -59,7 +69,21 @@ public class AuthService {
     public AuthDtos.LoginResponse toLogInDto(User user, String token) {
         return new AuthDtos.LoginResponse(
                 user.getUserName(),
-                token
+                token,
+                user.getIdentity()
+        );
+    }
+
+    //  String userName,
+    //  String identity,
+    //  boolean exist,
+    //  LocalDateTime deletedAt
+    public AuthDtos.DeleteResponse toDeleteDto(User user) {
+        return new AuthDtos.DeleteResponse(
+                user.getUserName(),
+                user.getIdentity(),
+                user.getExist(),
+                user.getDeletedAt()
         );
     }
 }

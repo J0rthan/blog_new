@@ -32,10 +32,27 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         // 通过header获取token
-        String token = req.getHeader("Auth-Token");
+        // 1) 先从 Authorization: Bearer xxx 取
+        String auth = req.getHeader("Authorization");
+        String token = null;
+
+        if (auth != null && !auth.isBlank()) {
+            // 兼容 Bearer token
+            if (auth.regionMatches(true, 0, "Bearer ", 0, 7)) {
+                token = auth.substring(7).trim();
+            } else {
+                // 如果你也允许直接 Authorization: <token>
+                token = auth.trim();
+            }
+        }
+
+        // 2) 兼容你之前的 Auth-Token: xxx（可选）
         if (token == null || token.isBlank()) {
-            // 给message
-            throw new ApiExceptions.BadRequest("Invalid input token");
+            token = req.getHeader("Auth-Token");
+        }
+
+        if (token == null || token.isBlank()) {
+            throw new ApiExceptions.Unauthorized("Missing token");
         }
 
         // 通过token查userId

@@ -46,7 +46,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         }
 
-        // 2) 兼容你之前的 Auth-Token: xxx（可选）
+        // 2) 兼容之前的 Auth-Token: xxx(作为后端测试)
         if (token == null || token.isBlank()) {
             token = req.getHeader("Auth-Token");
         }
